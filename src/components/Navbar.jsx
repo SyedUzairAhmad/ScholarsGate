@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth ,signOut } from "../config/firebase";
+import { auth, signOut } from "../config/firebase";
 import { GraduationCap } from "lucide-react";
 
 export default function Navbar() {
@@ -50,8 +50,8 @@ export default function Navbar() {
       <div className="hidden lg:flex space-x-8 text-white font-medium">
         <Link to="/" className="hover:text-amber-600">Home</Link>
         <Link to="/Scholarships" className="hover:text-amber-600">Scholarships</Link>
-        {isHomePage && ( <><a href="#about" className="hover:text-amber-600 ">About</a>
-        <a href="#contact" className="hover:text-amber-600">Contact</a>
+        {isHomePage && (<><a href="#about" className="hover:text-amber-600 ">About</a>
+          <a href="#contact" className="hover:text-amber-600">Contact</a>
         </>
         )}
       </div>
@@ -72,7 +72,7 @@ export default function Navbar() {
         </Link>}
         {user && <Link to="/provider-dashboard" className="bg-green-400 text-white px-4 py-2 rounded-lg mr-2 hover:bg-black mb-4">Dashboard</Link>}
         {user && <button
-          onClick={handleLogout }
+          onClick={handleLogout}
           className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 mb-4"
         >
           Logout
@@ -83,7 +83,7 @@ export default function Navbar() {
 
       {/* Hamburger Icon (Mobile) */}
       <button
-        className="lg:hidden text-white text-3xl focus:outline-none"
+        className="md:hidden text-white text-3xl focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
         ☰
@@ -97,15 +97,15 @@ export default function Navbar() {
         >
           <Link to="/scholarships" className="hover:text-amber-600">SCHOLARSHIPS</Link>
           <hr className="border-amber-400" />
-         {isHomePage &&( <> <a href="#about" className="hover:text-amber-600">ABOUT</a>
-          <hr className="border-amber-400" />
-          <a href="#contact" className="hover:text-amber-600">CONTACT</a>
-          <hr className="border-amber-400" />
+          {isHomePage && (<> <a href="#about" className="hover:text-amber-600">ABOUT</a>
+            <hr className="border-amber-400" />
+            <a href="#contact" className="hover:text-amber-600">CONTACT</a>
+            <hr className="border-amber-400" />
           </>)}
-          {!user && <Link to="/SignIn" className="hover:text-amber-600">LOG IN</Link>}
-          <hr className="border-amber-400" />
+          {!user && <Link to="/SignIn" className="hover:text-amber-600">LOG IN</Link> &&
+            <hr className="border-amber-400" />}
           {!user && <Link to="/providerSignup" className="hover:text-amber-600">SIGN UP</Link>}
-          {user && <Link to="/provider-dashboard">Dashboard</Link>}
+          {user && <Link to="/provider-dashboard" className="hover:text-amber-600">Dashboard</Link>}
         </div>
       )}
     </nav>

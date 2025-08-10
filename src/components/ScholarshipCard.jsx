@@ -3,7 +3,7 @@ import { ScholarshipProvider } from "../context/ScholarshipContext";
 
 export default function ScholarshipCard({ title, description, level, deadLine, site, country }) {
     return (
-        <div className="">
+        <div className="overflow-hidden">
             <div className="bg-amber-50 border border-amber-200 rounded-2xl shadow-md w-80 < p-6 transition hover:shadow-xl hover:scale-[1.01] duration-300">
                 {/* Header */}
                 <div className="mb-4">

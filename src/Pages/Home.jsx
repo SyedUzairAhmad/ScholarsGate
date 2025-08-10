@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SearchBar from "../components/SearchBar";
 import { Search, GraduationCap, DollarSign, Award } from "lucide-react";
 import Features from "../components/Features";
 import { motion } from "framer-motion";
@@ -7,28 +8,15 @@ import { motion } from "framer-motion";
 export default function Home() {
   return (
     <>
-      <div className=" pt-24 min-h-screen bg-gradient-to-r from-amber-300 to-amber-100 p-10 text-white font-sans">
+      <div className=" pt-24 min-h-screen bg-gradient-to-r from-amber-300 to-amber-100  text-white font-sans">
 
 
         {/* Hero Section */}
-        <div className="flex flex-col lg:flex-row items-center justify-between px-10 py-20 ml-10 space-x-3">
+        <div className="flex flex-col lg:flex-row items-center ml-5 justify-between px-10 py-20 space-x-3">
           {/* Left Text Section */}
           <div className="max-w-3xl">
-            <h1 className="text-5xl font-bold text-amber-900 leading-tight mb-4">
-              Find Your Dream <br /> Scholarships
-            </h1>
-            <p className="text-3xl mb-6 text-amber-700">
-              Search and apply for scholarships with ScholarsGate
-            </p>
-            <div className="flex items-center border rounded-full px-4 py-3 w-full shadow-sm">
-              <input
-                type="search"
-                placeholder="Search scholarships"
-                className="flex-1 outline-none text-gray-700 text-2xl"
-              />
-              <Search className="text-gray-500 w-6 h-6" />
-            </div>
 
+          <SearchBar />  
             {/* Cards */}
             <div className="flex items-end space-x-6 mt-10 ">
 
@@ -49,7 +37,7 @@ export default function Home() {
           </div>
 
           {/* Right Image Section */}
-          <div className="relative mt-10 lg:mt-0 mr-10">
+          <div className="relative mt-10 lg:mt-0 ">
             <img
               src="https://imgs.search.brave.com/-VUr4pSuJFPqfuIjD4gj_0ESy7KiG6bRiKPCKK9jq9Q/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9idXJz/dC5zaG9waWZ5Y2Ru/LmNvbS9waG90b3Mv/Z3JhZHVhdGlvbi1j/YXAtb24tdG9wLW9m/LWJvb2tzLmpwZz93/aWR0aD0xMDAwJmZv/cm1hdD1wanBnJmV4/aWY9MCZpcHRjPTA" // Replace with your image path
               alt="Graduate"
@@ -65,7 +53,7 @@ export default function Home() {
       <Features />
       {/* About Section */}
       <motion.section
-      id="about"
+        id="about"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}  // animation triggers once when 50% visible
@@ -92,7 +80,7 @@ export default function Home() {
 
       {/* Contact Section */}
       <motion.section
-      id="contact"
+        id="contact"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}  // animation triggers once when 50% visible

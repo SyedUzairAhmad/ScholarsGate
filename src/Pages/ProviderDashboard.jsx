@@ -10,7 +10,8 @@ import {
     addDoc,
     serverTimestamp,
     deleteDoc,
-    doc
+    doc,
+    updateDoc
 } from "firebase/firestore";
 
 export default function ProviderDashboard() {
@@ -23,6 +24,8 @@ export default function ProviderDashboard() {
         link: "",
         country: ""
     });
+
+    const [editingId, setEditingId] = useState(null); // 👈 track which scholarship is being edited
 
     const fetchScholarships = async () => {
         if (!auth.currentUser) return;
@@ -49,13 +52,40 @@ export default function ProviderDashboard() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!auth.currentUser) return;
+
+        const inputDate = new Date(formData.deadline);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const maxDate = new Date();
+        maxDate.setFullYear(today.getFullYear() + 3);
+
+        if (inputDate < today) {
+            alert("The deadline cannot be in the past!");
+            return; 
+        }
+
+        if (inputDate > maxDate) {
+            alert("The deadline cannot be more than 3 years from today!");
+            return;
+        }
+
         try {
-            await addDoc(collection(db, "scholarships"), {
-                ...formData,
-                providerId: auth.currentUser.uid,
-                createdAt: serverTimestamp()
-            });
-            alert("Scholarship added successfully!");
+            if (editingId) {
+                // 🔹 Update mode
+                const ref = doc(db, "scholarships", editingId);
+                await updateDoc(ref, { ...formData });
+                alert("Scholarship updated successfully!");
+                setEditingId(null);
+            } else {
+                // 🔹 Add mode
+                await addDoc(collection(db, "scholarships"), {
+                    ...formData,
+                    providerId: auth.currentUser.uid,
+                    createdAt: serverTimestamp()
+                });
+                alert("Scholarship added successfully!");
+            }
+
             setFormData({
                 title: "",
                 description: "",
@@ -67,7 +97,7 @@ export default function ProviderDashboard() {
             fetchScholarships();
         } catch (err) {
             console.error(err);
-            alert("Error adding scholarship");
+            alert("Error saving scholarship");
         }
     };
 
@@ -84,7 +114,18 @@ export default function ProviderDashboard() {
         }
     };
 
-
+    const handleEdit = (sch) => {
+        setFormData({
+            title: sch.title,
+            description: sch.description,
+            level: sch.level,
+            deadline: sch.deadline,
+            link: sch.link,
+            country: sch.country
+        });
+        setEditingId(sch.id);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
     return (
         <div className="p-6 max-w-4xl mx-auto pt-36">
@@ -95,7 +136,9 @@ export default function ProviderDashboard() {
                 onSubmit={handleSubmit}
                 className="bg-white shadow-md rounded-lg p-6 mb-8"
             >
-                <h2 className="text-xl font-semibold mb-4">Add New Scholarship</h2>
+                <h2 className="text-xl font-semibold mb-4">
+                    {editingId ? "Update Scholarship" : "Add New Scholarship"}
+                </h2>
                 <input
                     name="title"
                     placeholder="Title"
@@ -146,14 +189,16 @@ export default function ProviderDashboard() {
                 />
                 <button
                     type="submit"
-                    className="bg-amber-500 text-white px-6 py-2 rounded hover:bg-amber-600"
+                    className={`${
+                        editingId ? "bg-green-500 hover:bg-green-600" : "bg-amber-500 hover:bg-amber-600"
+                    } text-white px-6 py-2 rounded`}
                 >
-                    Add Scholarship
+                    {editingId ? "Update Scholarship" : "Add Scholarship"}
                 </button>
             </form>
 
             {/* Scholarships List */}
-            <h2 className="text-xl font-semibold mb-4">Your Scholarships</h2>
+            <h2 className="text-xl font-semibold mb-4 ">Your Scholarships</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {scholarships.map((s) => (
                     <div
@@ -176,12 +221,20 @@ export default function ProviderDashboard() {
                             >
                                 VISIT
                             </a>
+                            <div className="flex space-x-2">
+                            <button
+                                onClick={() => handleEdit(s)}
+                                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-500"
+                            >
+                                Update
+                            </button>
                             <button
                                 onClick={() => handleDelete(s.id)}
                                 className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
                             >
                                 Delete
                             </button>
+                            </div>
                         </div>
                     </div>
                 ))}

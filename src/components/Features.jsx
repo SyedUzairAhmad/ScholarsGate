@@ -8,12 +8,12 @@ export default function Features() {
     if (loading) return <p className="text-center mt-10">Loading featured scholarships...</p>;
 
     return (
-        <div className="flex flex-row lg:flex-col justify-between items-start px-10 py-20 ml-10 space-x-3">
+        <div className="flex flex-col justify-start items-start px-10 py-20 ml- space-x-3">
 
             <div className=" text-5xl font-bold text-amber-900 leading-tight mb-4">
                 Featured Scholarships
             </div>
-            <div className="flex flex-wrap gap-6 justify-center px-4">
+            <div className="flex flex-col lg:flex-row gap-6 justify-center px-4">
                 {/* Show only first 3 featured scholarships */}
                 {scholarships.slice(0, 3).map((scholarship) => (
                     <ScholarshipCard
