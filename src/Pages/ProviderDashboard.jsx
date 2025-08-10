@@ -18,6 +18,7 @@ export default function ProviderDashboard() {
     const [formData, setFormData] = useState({
         title: "",
         description: "",
+        level: "",
         deadline: "",
         link: "",
         country: ""
@@ -60,6 +61,7 @@ export default function ProviderDashboard() {
                 description: "",
                 deadline: "",
                 link: "",
+                level: "",
                 country: ""
             });
             fetchScholarships();
@@ -81,11 +83,11 @@ export default function ProviderDashboard() {
             }
         }
     };
-    
+
 
 
     return (
-        <div className="p-6 max-w-4xl mx-auto">
+        <div className="p-6 max-w-4xl mx-auto pt-36">
             <h1 className="text-3xl font-bold mb-6">Provider Dashboard</h1>
 
             {/* Add Scholarship Form */}
@@ -102,14 +104,22 @@ export default function ProviderDashboard() {
                     required
                     className="border rounded w-full p-2 mb-4"
                 />
-                <textarea
+                <input
                     name="description"
-                    placeholder="Description"
+                    placeholder="Description/Fully Funded"
                     value={formData.description}
                     onChange={handleChange}
                     required
                     className="border rounded w-full p-2 mb-4"
-                ></textarea>
+                ></input>
+                <input
+                    name="level"
+                    placeholder="BS/MS/PhD"
+                    value={formData.level}
+                    onChange={handleChange}
+                    required
+                    className="border rounded w-full p-2 mb-4"
+                ></input>
                 <input
                     name="deadline"
                     type="date"

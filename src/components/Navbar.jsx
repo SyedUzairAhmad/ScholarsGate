@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth ,signOut } from "../config/firebase";
 import { GraduationCap } from "lucide-react";
@@ -9,6 +9,8 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef();
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
   // Detect outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -48,8 +50,10 @@ export default function Navbar() {
       <div className="hidden lg:flex space-x-8 text-white font-medium">
         <Link to="/" className="hover:text-amber-600">Home</Link>
         <Link to="/Scholarships" className="hover:text-amber-600">Scholarships</Link>
-        <a href="#about" className="hover:text-amber-600 ">About</a>
+        {isHomePage && ( <><a href="#about" className="hover:text-amber-600 ">About</a>
         <a href="#contact" className="hover:text-amber-600">Contact</a>
+        </>
+        )}
       </div>
 
       {/* Desktop Buttons */}
@@ -93,10 +97,11 @@ export default function Navbar() {
         >
           <Link to="/scholarships" className="hover:text-amber-600">SCHOLARSHIPS</Link>
           <hr className="border-amber-400" />
-          <a href="#about" className="hover:text-amber-600">ABOUT</a>
+         {isHomePage &&( <> <a href="#about" className="hover:text-amber-600">ABOUT</a>
           <hr className="border-amber-400" />
           <a href="#contact" className="hover:text-amber-600">CONTACT</a>
           <hr className="border-amber-400" />
+          </>)}
           {!user && <Link to="/SignIn" className="hover:text-amber-600">LOG IN</Link>}
           <hr className="border-amber-400" />
           {!user && <Link to="/providerSignup" className="hover:text-amber-600">SIGN UP</Link>}
