@@ -22,6 +22,8 @@ export default function Features() {
                         description={scholarship.description}
                         level={scholarship.level}
                         deadLine={scholarship.deadline}
+                        site={scholarship.link}
+                        country={scholarship.country}
                     />
                 ))}
             </div>
