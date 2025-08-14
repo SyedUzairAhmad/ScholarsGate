@@ -48,10 +48,16 @@ export default function ProviderSignUp() {
             });
 
             alert("Provider account created successfully!");
-        } catch (err) {
-            console.error(err);
+        }  catch (err) {
+        console.error(err);
+
+        // Check for specific Firebase error codes
+        if (err.code === "auth/email-already-in-use") {
+            setError("Email already exists. Please use another one.");
+        } else {
             setError(err.message);
         }
+    }
     };
 
     return (

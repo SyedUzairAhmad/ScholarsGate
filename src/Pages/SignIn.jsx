@@ -17,9 +17,21 @@ export default function SignIn() {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            navigate("/provider-dashboard"); // ✅ Go to dashboard after login
+            navigate("/provider-dashboard"); // ✅ Redirect after login
         } catch (err) {
-            setError(err.message);
+            console.error(err);
+
+            // Handle specific Firebase auth errors
+            const errorMessages = {
+                "auth/user-not-found": "No account found with this email.",
+                "auth/wrong-password": "Incorrect password. Please try again.",
+                "auth/invalid-email": "Invalid email format.",
+                "auth/too-many-requests": "Too many failed attempts. Please try again later.",
+                "auth/invalid-credential": "Incorrect email or password. Please try again." // New Firebase code
+            };
+
+
+            setError(errorMessages[err.code] || "Something went wrong. Please try again.");
         }
 
         setLoading(false);
@@ -39,7 +51,7 @@ export default function SignIn() {
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-4 py-2 border rounded-lg"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     required
                 />
                 <input
@@ -47,14 +59,15 @@ export default function SignIn() {
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full px-4 py-2 border rounded-lg"
+                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
                     required
                 />
 
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-amber-500 text-white py-2 px-4 rounded-lg hover:bg-amber-600"
+                    className={`w-full text-white py-2 px-4 rounded-lg transition ${loading ? "bg-amber-300 cursor-not-allowed" : "bg-amber-500 hover:bg-amber-600"
+                        }`}
                 >
                     {loading ? "Signing in..." : "Sign In"}
                 </button>
